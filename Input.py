@@ -8,7 +8,7 @@ import numpy as np
 # define readExcel
 # used to read the txt input with the filepath
 def readExcel(filepath):
-    sheet_name = 'Tabelle1'
+    sheet_name = 'coordsAI2'
     file_name = filepath
     df = read_excel(file_name, sheet_name=sheet_name)
     return df

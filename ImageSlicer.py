@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
+import numpy as np
+
 from Input import *
 import cv2 as cv
 from BoundaryBoxCalc import *
 
-img_path = r"C:\Users\julia\Desktop\TestImage"
-excel_input = readExcel(r"C:\Users\julia\Desktop\TestExcel\SiemensTestCoords.xlsx")
+img_path = r"C:\Users\DLR_OS_Testbench\Desktop\__for AI\Siemstars_for_AI_2"
+excel_input = readExcel(r"C:\Users\DLR_OS_Testbench\Desktop\__for AI\coordsAI_combined.xlsx")
 
 excel_info = excel_input['img_name']
 excel_list = excel_info.values.tolist()
@@ -99,23 +101,43 @@ for x in range(len(excel_list)):
     boundaryy4 = int(boundaryy4)
     boundarylist.append(boundaryy4)
 
-    print(boundarylist)
+    startpoint = [boundaryx1, boundaryy1]
+    endpoint = [boundaryx3, boundaryy3]
+    color = (255, 255, 255)
+    thickness = 1
 
-    with open("file.txt", "w") as output:
-        output.write(str(boundarylist))
+    boundaryx1 = boundaryx1/416
+    boundaryx1 = f'{boundaryx1:.6f}'
+    boundaryy1 = boundaryy1/416
+    boundaryy1 = f'{boundaryy1:.6f}'
+    boundaryx3 = boundaryx3/416
+    boundaryx3 = f'{boundaryx3:.6f}'
+    boundaryy3 = boundaryy3/416
+    boundaryy3 = f'{boundaryy3:.6f}'
 
+    export_list = [1, boundaryx1, boundaryy1, boundaryx3, boundaryy3]
 
     save_name = img_name.split(".")
     save_name = save_name[0]
+    save_name = r"C:\Users\DLR_OS_Testbench\Desktop\Cropped_and_repostioned\ "+save_name
     print(img.shape)
     original = img[0:100, 0:100]
     print(original.shape)
     # first two values for rows - y values |||| second two values for columns - x values
     cropped = img[ty:ly, tx:lx]
-    cropped[boundaryx1, boundaryy1] = [0, 0, 255]
-    cropped[boundaryx2, boundaryy2] = [0, 0, 255]
-    cropped[boundaryx3, boundaryy3] = [0, 0, 255]
-    cropped[boundaryx4, boundaryy4] = [0, 0, 255]
+    # cropped = cv.rectangle(cropped, startpoint, endpoint, color, thickness)
+    # cropped[boundaryx1, boundaryy1] = [0, 0, 255]
+    # cropped[boundaryx2, boundaryy2] = [0, 0, 255]
+    # cropped[boundaryx3, boundaryy3] = [0, 0, 255]
+    # cropped[boundaryx4, boundaryy4] = [0, 0, 255]
+    print(boundarylist)
+    txt_name = save_name
+    txt_name = txt_name + ".txt"
+
+    txtfile = open(txt_name, 'w')
+    for element in export_list:
+        txtfile.write(str(element) + " ")
+    txtfile.close()
     save = cv.imwrite(save_name+"_1.tif", cropped)
 
     # plt.imshow(img, aspect="auto")
