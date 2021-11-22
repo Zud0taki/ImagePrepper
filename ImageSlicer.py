@@ -107,19 +107,26 @@ for x in range(len(excel_list)):
     thickness = 1
 
     boundaryx1 = boundaryx1/416
-    boundaryx1 = f'{boundaryx1:.6f}'
     boundaryy1 = boundaryy1/416
-    boundaryy1 = f'{boundaryy1:.6f}'
     boundaryx3 = boundaryx3/416
-    boundaryx3 = f'{boundaryx3:.6f}'
     boundaryy3 = boundaryy3/416
+
+    xdistance = boundaryx3 - boundaryx1
+    ydistance = boundaryy3 - boundaryy1
+
+    xczeroed = boundaryx1 + (xdistance / 2)
+    yczeroed = boundaryy1 + (ydistance / 2)
+
+    boundaryx1 = f'{boundaryx1:.6f}'
+    boundaryy1 = f'{boundaryy1:.6f}'
+    boundaryx3 = f'{boundaryx3:.6f}'
     boundaryy3 = f'{boundaryy3:.6f}'
 
-    export_list = [1, boundaryx1, boundaryy1, boundaryx3, boundaryy3]
+    export_list = [0, xczeroed, yczeroed, xdistance, ydistance]
 
     save_name = img_name.split(".")
     save_name = save_name[0]
-    save_name = r"C:\Users\DLR_OS_Testbench\Desktop\Cropped_and_repostioned\ "+save_name
+    save_name = r"C:\Users\DLR_OS_Testbench\Desktop\Prep\ "+save_name
     print(img.shape)
     original = img[0:100, 0:100]
     print(original.shape)
