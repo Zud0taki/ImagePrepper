@@ -7,8 +7,9 @@ from BoundaryBoxCalc import *
 
 img_path = r"C:\Users\DLR_OS_Testbench\Desktop\tempImg"
 txt_path = r"C:\Users\DLR_OS_Testbench\Desktop\temptxt"
+name = "P0032"
 
-txt_file = open(txt_path + "/" + "P0032.txt", "r")
+txt_file = open(txt_path + "/" + name +".txt", "r")
 coords_temp = []
 label_count = 0
 for line in txt_file:
@@ -94,7 +95,7 @@ for line in txt_file:
     yc = ymax - (ycd / 2)
     yc = int(yc)
 
-    readingpath = img_path + "/" + "P0032.png"
+    readingpath = img_path + "/" + name+".png"
     img = cv.imread(readingpath, -1)
     img_shape = img.shape
 
@@ -127,20 +128,19 @@ for line in txt_file:
 
     startpoint = [ucy, ucx]
     endpoint = [lcy, lcx]
-    color = (255, 255, 255)
+    color = (0, 255, 0)
     thickness = 1
 
-    # xdistance = boundaryx3 - boundaryx1
-    # ydistance = boundaryy3 - boundaryy1
-    #
-    # xczeroed = boundaryx1 + (xdistance / 2)
-    # yczeroed = boundaryy1 + (ydistance / 2)
+    xdistance = xmax - xmin
+    ydistance = ymax - ymin
+    xczeroed = xmin + (xdistance / 2)
+    yczeroed = ymin + (ydistance / 2)
 
-    # export_list = [0, xczeroed, yczeroed, xdistance, ydistance]
+    export_list = [0, xczeroed, yczeroed, xdistance, ydistance]
 
-    save_name = ["test"]
+    save_name = [name]
     save_name = save_name[0]
-    save_name = r"C:\Users\DLR_OS_Testbench\Desktop\Prep\ " + save_name
+    save_name = r"C:\Users\DLR_OS_Testbench\Desktop\tempSave\ " + save_name
     print(img.shape)
     original = img[0:100, 0:100]
     print(original.shape)
@@ -149,17 +149,17 @@ for line in txt_file:
     cropped = cv.rectangle(cropped, startpoint, endpoint, color, thickness)
 
     txt_name = save_name
-    txt_name = txt_name + ".txt"
-    # txtfile = open(txt_name, 'w')
-    # for element in export_list:
-    #     txtfile.write(str(element) + " ")
-    # txtfile.close()
-    save = cv.imwrite(save_name + "_1.tif", cropped)
+    txt_name = txt_name+"_"+str(label_count)+ ".txt"
+    txtfile = open(txt_name, 'w')
+    for element in export_list:
+        txtfile.write(str(element) + " ")
+    txtfile.close()
+    save = cv.imwrite(save_name+"_"+str(label_count)+".tif", cropped)
 
     label_count += 1
 
-    plt.imshow(img, aspect="auto")
-    plt.show()
-    plt.imshow(cropped, aspect="auto")
-    plt.show()
-    dummy = "j"
+    # plt.imshow(img, aspect="auto")
+    # plt.show()
+    # plt.imshow(cropped, aspect="auto")
+    # plt.show()
+    # dummy = "j"
