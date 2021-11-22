@@ -36,12 +36,6 @@ for x in range(len(excel_list)):
     yc = y3 - (ycd / 2)
     yc = int(yc)
 
-    # bounding_list = calcboundary(x1, x2, y1, y3)
-    # boundaryul = bounding_list[0:2]
-    # boundaryur = bounding_list[2:4]
-    # boundarylr = bounding_list[4:6]
-    # boundaryll = bounding_list[6:8]
-
     readingpath = r"" + (img_path) + "/" + img_name
     img = cv.imread(readingpath, -1)
     img_shape = img.shape
