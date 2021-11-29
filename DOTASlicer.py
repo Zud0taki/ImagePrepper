@@ -27,9 +27,10 @@ for x in range(len(img_input)):
     save_name = save_name.split("\\temptxt")
     save_name = save_name[0]
 
-    img = cv.imread(img_input[x], -1)
-    img_shape = img.shape
     for line in txt_file:
+
+        img = cv.imread(img_input[x], -1)
+        img_shape = img.shape
         coords_temp = line.split()
         x1 = coords_temp[0]
         y1 = coords_temp[1]
@@ -74,10 +75,12 @@ for x in range(len(img_input)):
         if lx > img_shape[1]:
             lxshift = lx
             lx = img_shape[1]
+            tx = lx - 416
         ly = ty + 416
         if ly > img_shape[0]:
             lyshift = ly
             ly = img_shape[0]
+            ty = ly - 416
 
         boundarylist = []
 
@@ -87,8 +90,8 @@ for x in range(len(img_input)):
         ucy = int(ymin) - ty
         lcy = int(ymax) - ty
 
-        startpoint = [ucy, ucx]
-        endpoint = [lcy, lcx]
+        startpoint = [ucx, ucy]
+        endpoint = [lcx, lcy]
         color = (0, 255, 0)
         thickness = 1
 
@@ -146,13 +149,12 @@ for x in range(len(img_input)):
         cropped = img[ty:ly, tx:lx]
         cropped = cv.rectangle(cropped, startpoint, endpoint, color, thickness)
 
-        txt_name = save_name
-        txt_name = txt_name+"\\tempSave"+"_"+str(label_count)+ ".txt"
+        txt_name = save_name+"/tempSave/"+"_t"+str(label_count)+".txt"
         txtfile = open(txt_name, 'w')
         for element in export_list:
             txtfile.write(str(element) + " ")
         txtfile.close()
-        save = cv.imwrite(save_name+"\\tempSave\\hallo"+"_"+str(label_count)+".tif", cropped)
+        save = cv.imwrite(save_name+"/tempSave/"+"_t"+str(label_count)+".tif", cropped)
 
         label_count += 1
     txt_counter += 1
