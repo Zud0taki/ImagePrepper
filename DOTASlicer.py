@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from CheckSurroundings import *
 
 from Input import *
 import cv2 as cv
@@ -14,6 +15,7 @@ img_input = []
 txt_input = []
 label_count = 0
 txt_counter = 0
+linecounter = 0
 
 for txt in glob.glob(r"C:\Users\DLR_OS_Testbench\Desktop\temptxt\*"):
     txt_input.append(txt)
@@ -22,13 +24,14 @@ for img in glob.glob(r"C:\Users\DLR_OS_Testbench\Desktop\tempImg\*"):
 
 for x in range(len(img_input)):
 
+    txt_file_list = open(txt_input[x], "r")
+    txt_file_list = txt_file_list.readlines()
     txt_file = open(txt_input[x], "r")
     save_name = txt_input[x]
     save_name = save_name.split("\\temptxt")
     save_name = save_name[0]
 
     for line in txt_file:
-
         img = cv.imread(img_input[x], -1)
         img_shape = img.shape
         coords_temp = line.split()
@@ -57,11 +60,7 @@ for x in range(len(img_input)):
         yc = ymax - (ycd / 2)
         yc = int(yc)
 
-        # readingpath = img_path + "/" + name+".png"
-        # img = cv.imread(readingpath, -1)
-        # img_shape = img.shape
-
-        # upper left boundary pixel
+        # upper left cropped pixel
         tx = xc - 208
         if tx < 0:
             txshift = tx
@@ -70,7 +69,7 @@ for x in range(len(img_input)):
         if ty < 0:
             tyshift = ty
             ty = 0
-        # lower right boundary pixel
+        # lower right cropped pixel
         lx = tx + 416
         if lx > img_shape[1]:
             lxshift = lx
@@ -81,9 +80,9 @@ for x in range(len(img_input)):
             lyshift = ly
             ly = img_shape[0]
             ty = ly - 416
+        cropped_coordinates = [tx, ty, lx, ly]
 
-        boundarylist = []
-
+        # get boundarybox pixels and distances
         ucx = int(xmin) - tx
         lcx = int(xmax) - tx
 
@@ -100,6 +99,7 @@ for x in range(len(img_input)):
         xczeroed = xmin + (xdistance / 2)
         yczeroed = ymin + (ydistance / 2)
 
+        # get correct label
         label_number = 0
         if(label_name == "plane"):
             label_number = 0
@@ -141,6 +141,9 @@ for x in range(len(img_input)):
             label_number = 18
 
         export_list = [label_number, xczeroed, yczeroed, xdistance, ydistance]
+
+        if (len(txt_file_list) > 1):
+            surrounding_list = check_surroundings(cropped_coordinates, txt_file_list)
 
         print(img.shape)
         original = img[0:100, 0:100]
