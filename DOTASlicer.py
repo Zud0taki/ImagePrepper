@@ -17,9 +17,9 @@ label_count = 0
 txt_counter = 0
 linecounter = 0
 
-for txt in glob.glob(r"C:\Users\DLR_OS_Testbench\Desktop\temptxt\*"):
+for txt in glob.glob(r"C:\Users\bern_jl\Desktop\TestTxt\*"):
     txt_input.append(txt)
-for img in glob.glob(r"C:\Users\DLR_OS_Testbench\Desktop\tempImg\*"):
+for img in glob.glob(r"C:\Users\bern_jl\Desktop\TestImg\*"):
     img_input.append(img)
 
 for x in range(len(img_input)):
@@ -28,7 +28,7 @@ for x in range(len(img_input)):
     txt_file_list = txt_file_list.readlines()
     txt_file = open(txt_input[x], "r")
     save_name = txt_input[x]
-    save_name = save_name.split("\\temptxt")
+    save_name = save_name.split("\\TestTxt")
     save_name = save_name[0]
 
     for line in txt_file:
@@ -81,6 +81,7 @@ for x in range(len(img_input)):
             ly = img_shape[0]
             ty = ly - 416
         cropped_coordinates = [tx, ty, lx, ly]
+
 
         # get boundarybox pixels and distances
         ucx = int(xmin) - tx
@@ -143,7 +144,7 @@ for x in range(len(img_input)):
         export_list = [label_number, xczeroed, yczeroed, xdistance, ydistance]
 
         if (len(txt_file_list) > 1):
-            surrounding_list = check_surroundings(cropped_coordinates, txt_file_list)
+            surrounding_list = check_surroundings(cropped_coordinates, txt_file_list, label_count)
 
         print(img.shape)
         original = img[0:100, 0:100]
@@ -152,12 +153,12 @@ for x in range(len(img_input)):
         cropped = img[ty:ly, tx:lx]
         cropped = cv.rectangle(cropped, startpoint, endpoint, color, thickness)
 
-        txt_name = save_name+"/tempSave/"+"_t"+str(label_count)+".txt"
+        txt_name = save_name+"/TestRes/"+"_t"+str(label_count)+".txt"
         txtfile = open(txt_name, 'w')
         for element in export_list:
             txtfile.write(str(element) + " ")
         txtfile.close()
-        save = cv.imwrite(save_name+"/tempSave/"+"_t"+str(label_count)+".tif", cropped)
+        save = cv.imwrite(save_name+"/TestRes/"+"_t"+str(label_count)+".tif", cropped)
 
         label_count += 1
     txt_counter += 1
