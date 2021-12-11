@@ -3,7 +3,8 @@ import numpy as np
 from Input import *
 import cv2 as cv
 
-coords_temp = []
+txt_file_list = []
+txt_file = []
 img_input = []
 txt_input = []
 label_count = 0
@@ -18,16 +19,17 @@ for img in glob.glob(r"C:\Users\bern_jl\Desktop\TestImg\*"):
 for x in range(len(img_input)):
 
     txt_file_list = open(txt_input[x], "r")
-    txt_file_list = txt_file_list.readlines()
+    txt_file_list = txt_file_list.readlines()[2:]
     txt_file = open(txt_input[x], "r")
+    txt_file = txt_file.readlines()
     save_name = txt_input[x]
     save_name = save_name.split("\\TestTxt")
     save_name = save_name[0]
 
-    for line in txt_file:
+    for f in (txt_file_list):
         img = cv.imread(img_input[x], -1)
         img_shape = img.shape
-        coords_temp = line.split()
+        coords_temp = f.split()
         x1 = coords_temp[0]
         y1 = coords_temp[1]
         x2 = coords_temp[2]
