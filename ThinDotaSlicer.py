@@ -40,105 +40,116 @@ for x in range(len(img_input)):
         y4 = coords_temp[7]
         label_name = coords_temp[8]
 
-        xarray = np.array([x1, x2, x3, x4]).astype(np.int64)
-        xmax = xarray.max()
-        xmin = xarray.min()
+        if (label_name == "ship"):
 
-        yarray = np.array([y1, y2, y3, y4]).astype(np.int64)
-        ymax = yarray.max()
-        ymin = yarray.min()
+            xarray = np.array([x1, x2, x3, x4]).astype(np.int64)
+            xmax = xarray.max()
+            xmin = xarray.min()
 
-        xcd = xmax - xmin
-        xc = xmax - (xcd / 2)
-        xc = int(xc)
-        ycd = ymax - ymin
-        yc = ymax - (ycd / 2)
-        yc = int(yc)
+            yarray = np.array([y1, y2, y3, y4]).astype(np.int64)
+            ymax = yarray.max()
+            ymin = yarray.min()
 
-        # upper left cropped pixel
-        tx = xc - 208
-        if tx < 0:
-            txshift = tx
-            tx = 0
-        ty = yc - 208
-        if ty < 0:
-            tyshift = ty
-            ty = 0
-        # lower right cropped pixel
-        lx = tx + 416
-        if lx > img_shape[1]:
-            lxshift = lx
-            lx = img_shape[1]
-            tx = lx - 416
-        ly = ty + 416
-        if ly > img_shape[0]:
-            lyshift = ly
-            ly = img_shape[0]
-            ty = ly - 416
-        cropped_coordinates = [tx, ty, lx, ly]
+            xcd = xmax - xmin
+            xc = xmax - (xcd / 2)
+            xc = int(xc)
+            ycd = ymax - ymin
+            yc = ymax - (ycd / 2)
+            yc = int(yc)
+
+            # upper left cropped pixel
+            tx = xc - 208
+            if tx < 0:
+                txshift = tx
+                tx = 0
+            ty = yc - 208
+            if ty < 0:
+                tyshift = ty
+                ty = 0
+            # lower right cropped pixel
+            lx = tx + 416
+            if lx > img_shape[1]:
+                lxshift = lx
+                lx = img_shape[1]
+                tx = lx - 416
+            ly = ty + 416
+            if ly > img_shape[0]:
+                lyshift = ly
+                ly = img_shape[0]
+                ty = ly - 416
+            cropped_coordinates = [tx, ty, lx, ly]
 
 
-        # get boundarybox pixels and distances
-        ucx = int(xmin) - tx
-        lcx = int(xmax) - tx
+            # get boundarybox pixels and distances
+            ucx = int(xmin) - tx
+            lcx = int(xmax) - tx
 
-        ucy = int(ymin) - ty
-        lcy = int(ymax) - ty
+            ucy = int(ymin) - ty
+            lcy = int(ymax) - ty
 
-        startpoint = [ucx, ucy]
-        endpoint = [lcx, lcy]
-        color = (0, 255, 0)
-        thickness = 1
+            startpoint = [ucx, ucy]
+            endpoint = [lcx, lcy]
+            color = (0, 255, 0)
+            thickness = 1
 
-        xdistance = xmax - xmin
-        ydistance = ymax - ymin
-        xczeroed = xmin + (xdistance / 2)
-        yczeroed = ymin + (ydistance / 2)
+            xwidth = (lcx - ucx)/416
+            xwidth = round(xwidth, 5)
+            ywidth = (lcy - ucy)/416
+            ywidth = round(ywidth, 5)
+            xmiddle = ((lcx - ucx)/2)/416
+            xmiddle = round(xmiddle, 5)
+            ymiddle = ((lcy - ucy)/2)/416
+            ymiddle = round(ymiddle, 5)
 
-        # get correct label
-        label_number = 0
-        if(label_name == "plane"):
-            label_number = 0
-        elif(label_name == "ship"):
+            # xdistance = xmax - xmin
+            # ydistance = ymax - ymin
+            # xczeroed = xmin + (xdistance / 2)
+            # yczeroed = ymin + (ydistance / 2)
+
+            # get correct label
             label_number = 1
-        elif (label_name == "storage"):
-            label_number = 2
-        elif (label_name == "tank"):
-            label_number = 3
-        elif (label_name == "baseball"):
-            label_number = 4
-        elif (label_name == "diamond"):
-            label_number = 5
-        elif (label_name == "tennis court"):
-            label_number = 6
-        elif (label_name == "basketball court"):
-            label_number = 7
-        elif (label_name == "ground track"):
-            label_number = 8
-        elif (label_name == "field"):
-            label_number = 9
-        elif (label_name == "harbor"):
-            label_number = 10
-        elif (label_name == "bridge"):
-            label_number = 11
-        elif (label_name == "large vehicle"):
-            label_number = 12
-        elif (label_name == "small vehicle"):
-            label_number = 13
-        elif (label_name == "helicopter"):
-            label_number = 14
-        elif (label_name == "roundabout"):
-            label_number = 15
-        elif (label_name == "soccer ball field"):
-            label_number = 16
-        elif (label_name == "swimming pool"):
-            label_number = 17
-        elif (label_name == "container crane"):
-            label_number = 18
+            # if(label_name == "plane"):
+            #     label_number = 0
+            # elif(label_name == "ship"):
+            #     label_number = 1
+            # elif (label_name == "storage"):
+            #     label_number = 2
+            # elif (label_name == "tank"):
+            #     label_number = 3
+            # elif (label_name == "baseball"):
+            #     label_number = 4
+            # elif (label_name == "diamond"):
+            #     label_number = 5
+            # elif (label_name == "tennis court"):
+            #     label_number = 6
+            # elif (label_name == "basketball court"):
+            #     label_number = 7
+            # elif (label_name == "ground track"):
+            #     label_number = 8
+            # elif (label_name == "field"):
+            #     label_number = 9
+            # elif (label_name == "harbor"):
+            #     label_number = 10
+            # elif (label_name == "bridge"):
+            #     label_number = 11
+            # elif (label_name == "large vehicle"):
+            #     label_number = 12
+            # elif (label_name == "small vehicle"):
+            #     label_number = 13
+            # elif (label_name == "helicopter"):
+            #     label_number = 14
+            # elif (label_name == "roundabout"):
+            #     label_number = 15
+            # elif (label_name == "soccer ball field"):
+            #     label_number = 16
+            # elif (label_name == "swimming pool"):
+            #     label_number = 17
+            # elif (label_name == "container crane"):
+            #     label_number = 18
 
-        if (label_number == 1):
+            # if (label_number == 1):
 
-            export_list = [label_number, xczeroed, yczeroed, xdistance, ydistance]
+            export_list = [label_number, xmiddle, ymiddle, xwidth, ywidth]
 
 
             print(img.shape)
