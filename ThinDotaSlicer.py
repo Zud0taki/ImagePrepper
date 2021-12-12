@@ -42,11 +42,11 @@ for x in range(len(img_input)):
 
         if (label_name == "ship"):
 
-            xarray = np.array([x1, x2, x3, x4]).astype(np.int64)
+            xarray = np.array([x1, x2, x3, x4]).astype(np.float)
             xmax = xarray.max()
             xmin = xarray.min()
 
-            yarray = np.array([y1, y2, y3, y4]).astype(np.int64)
+            yarray = np.array([y1, y2, y3, y4]).astype(np.float)
             ymax = yarray.max()
             ymin = yarray.min()
 
@@ -92,14 +92,23 @@ for x in range(len(img_input)):
             color = (0, 255, 0)
             thickness = 1
 
-            xwidth = (lcx - ucx)/416
-            xwidth = round(xwidth, 5)
-            ywidth = (lcy - ucy)/416
-            ywidth = round(ywidth, 5)
-            xmiddle = ((lcx - ucx)/2)/416
-            xmiddle = round(xmiddle, 5)
-            ymiddle = ((lcy - ucy)/2)/416
-            ymiddle = round(ymiddle, 5)
+            boundaryux = ucx/416
+            boundaryuy = ucy/416
+            boundarylx = lcx/416
+            boundaryly = lcy/416
+
+            xdistance = boundarylx - boundaryux
+            ydistance = boundaryly - boundaryuy
+            xczeroed = boundaryux + (xdistance/2)
+            yczeroed = boundaryuy + (ydistance/2)
+            # xwidth = (xmax - xmin)/416
+            # xwidth = round(xwidth, 5)
+            # ywidth = (ymax - ymin)/416
+            # ywidth = round(ywidth, 5)
+            # xmiddle = ((xmax - xmin)/2)/416
+            # xmiddle = round(xmiddle, 5)
+            # ymiddle = ((ymax - ymin)/2)/416
+            # ymiddle = round(ymiddle, 5)
 
             # xdistance = xmax - xmin
             # ydistance = ymax - ymin
@@ -149,7 +158,7 @@ for x in range(len(img_input)):
 
             # if (label_number == 1):
 
-            export_list = [label_number, xmiddle, ymiddle, xwidth, ywidth]
+            export_list = [label_number, xczeroed, yczeroed, xdistance, ydistance]
 
 
             print(img.shape)
