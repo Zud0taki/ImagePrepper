@@ -40,7 +40,13 @@ for x in range(len(img_input)):
         x4 = coords_temp[6]
         y4 = coords_temp[7]
         label_name = coords_temp[8]
+<<<<<<< HEAD
         if(label_name=="ship"):
+=======
+
+        if (label_name == "ship"):
+
+>>>>>>> 09093742ffc7252ec70974fcb416229ac2521955
             xarray = np.array([x1, x2, x3, x4]).astype(np.float)
             xmax = xarray.max()
             xmin = xarray.min()
@@ -91,6 +97,7 @@ for x in range(len(img_input)):
             color = (0, 255, 0)
             thickness = 1
 
+<<<<<<< HEAD
             xdistance = (xmax - xmin)/416
             ydistance = (ymax - ymin)/416
             xczeroed = (xmin/416) + (xdistance / 2)
@@ -156,6 +163,92 @@ for x in range(len(img_input)):
                 save = cv.imwrite(save_name+"/TestRes/"+"t"+str(label_count)+".tif", cropped)
 
                 label_count += 1
+=======
+            boundaryux = ucx/416
+            boundaryuy = ucy/416
+            boundarylx = lcx/416
+            boundaryly = lcy/416
+
+            xdistance = boundarylx - boundaryux
+            ydistance = boundaryly - boundaryuy
+            xczeroed = boundaryux + (xdistance/2)
+            yczeroed = boundaryuy + (ydistance/2)
+            # xwidth = (xmax - xmin)/416
+            # xwidth = round(xwidth, 5)
+            # ywidth = (ymax - ymin)/416
+            # ywidth = round(ywidth, 5)
+            # xmiddle = ((xmax - xmin)/2)/416
+            # xmiddle = round(xmiddle, 5)
+            # ymiddle = ((ymax - ymin)/2)/416
+            # ymiddle = round(ymiddle, 5)
+
+            # xdistance = xmax - xmin
+            # ydistance = ymax - ymin
+            # xczeroed = xmin + (xdistance / 2)
+            # yczeroed = ymin + (ydistance / 2)
+
+            # get correct label
+            label_number = 1
+            # if(label_name == "plane"):
+            #     label_number = 0
+            # elif(label_name == "ship"):
+            #     label_number = 1
+            # elif (label_name == "storage"):
+            #     label_number = 2
+            # elif (label_name == "tank"):
+            #     label_number = 3
+            # elif (label_name == "baseball"):
+            #     label_number = 4
+            # elif (label_name == "diamond"):
+            #     label_number = 5
+            # elif (label_name == "tennis court"):
+            #     label_number = 6
+            # elif (label_name == "basketball court"):
+            #     label_number = 7
+            # elif (label_name == "ground track"):
+            #     label_number = 8
+            # elif (label_name == "field"):
+            #     label_number = 9
+            # elif (label_name == "harbor"):
+            #     label_number = 10
+            # elif (label_name == "bridge"):
+            #     label_number = 11
+            # elif (label_name == "large vehicle"):
+            #     label_number = 12
+            # elif (label_name == "small vehicle"):
+            #     label_number = 13
+            # elif (label_name == "helicopter"):
+            #     label_number = 14
+            # elif (label_name == "roundabout"):
+            #     label_number = 15
+            # elif (label_name == "soccer ball field"):
+            #     label_number = 16
+            # elif (label_name == "swimming pool"):
+            #     label_number = 17
+            # elif (label_name == "container crane"):
+            #     label_number = 18
+
+            # if (label_number == 1):
+
+            export_list = [label_number, xczeroed, yczeroed, xdistance, ydistance]
+
+
+            print(img.shape)
+            original = img[0:100, 0:100]
+            print(original.shape)
+            # first two values for rows - y values |||| second two values for columns - x values
+            cropped = img[ty:ly, tx:lx]
+            cropped = cv.rectangle(cropped, startpoint, endpoint, color, thickness)
+
+            txt_name = save_name+"/TestRes/"+"t"+str(label_count)+".txt"
+            txtfile = open(txt_name, 'w')
+            for element in export_list:
+                txtfile.write(str(element) + " ")
+            txtfile.close()
+            save = cv.imwrite(save_name+"/TestRes/"+"t"+str(label_count)+".tif", cropped)
+
+            label_count += 1
+>>>>>>> 09093742ffc7252ec70974fcb416229ac2521955
     txt_counter += 1
         # plt.imshow(img, aspect="auto")
         # plt.show()
