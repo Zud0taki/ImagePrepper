@@ -27,7 +27,7 @@ for x in range(len(img_input)):
     save_name = save_name[0]
     print("nextxt")
     for f in (txt_file_list):
-        print(str(f))
+        # print(str(f))
         img = cv.imread(img_input[x], -1)
         img_shape = img.shape
         coords_temp = f.split()
