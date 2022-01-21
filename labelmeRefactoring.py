@@ -16,9 +16,9 @@ x_max_list = []
 y_max_list = []
 
 # input handling
-for txt in glob.glob(r"C:\Users\KIZwei\Desktop\Dota\trainingstxt\*"):
+for txt in glob.glob(r"C:\Users\KIZwei\Desktop\labelme\*.txt"):
     txt_input.append(txt)
-for img in glob.glob(r"C:\Users\KIZwei\Desktop\Dota\trainingsbilder\*"):
+for img in glob.glob(r"C:\Users\KIZwei\Desktop\labelme\*.jpg"):
     img_input.append(img)
 
 #
