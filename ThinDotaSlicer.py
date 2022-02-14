@@ -40,13 +40,10 @@ for x in range(len(img_input)):
         x4 = coords_temp[6]
         y4 = coords_temp[7]
         label_name = coords_temp[8]
-<<<<<<< HEAD
         if(label_name=="ship"):
-=======
 
         if (label_name == "ship"):
 
->>>>>>> 09093742ffc7252ec70974fcb416229ac2521955
             xarray = np.array([x1, x2, x3, x4]).astype(np.float)
             xmax = xarray.max()
             xmin = xarray.min()
@@ -97,7 +94,6 @@ for x in range(len(img_input)):
             color = (0, 255, 0)
             thickness = 1
 
-<<<<<<< HEAD
             xdistance = (xmax - xmin)/416
             ydistance = (ymax - ymin)/416
             xczeroed = (xmin/416) + (xdistance / 2)
@@ -163,7 +159,7 @@ for x in range(len(img_input)):
                 save = cv.imwrite(save_name+"/TestRes/"+"t"+str(label_count)+".tif", cropped)
 
                 label_count += 1
-=======
+
             boundaryux = ucx/416
             boundaryuy = ucy/416
             boundarylx = lcx/416
@@ -248,7 +244,6 @@ for x in range(len(img_input)):
             save = cv.imwrite(save_name+"/TestRes/"+"t"+str(label_count)+".tif", cropped)
 
             label_count += 1
->>>>>>> 09093742ffc7252ec70974fcb416229ac2521955
     txt_counter += 1
         # plt.imshow(img, aspect="auto")
         # plt.show()

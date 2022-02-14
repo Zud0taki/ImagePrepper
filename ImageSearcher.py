@@ -41,4 +41,3 @@ for a in srcimg_list:
 
 
 
-hello = ""
